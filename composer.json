@@ -1,6 +1,6 @@
 {
     "name": "bartdecorte/imagick-svg",
-    "description": "Draw SVGs using Imagick",
+    "description": "Render SVGs using Imagick",
     "license": "MIT",
     "type": "project",
     "require": {
@@ -8,6 +8,12 @@
         "ext-curl": "*",
         "ext-imagick": "^3.6"
     },
+    "authors": [
+        {
+            "name": "Bart Decorte",
+            "email": "bart@bartdecorte.be"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "BartDecorte\\ImagickSvg\\": "src/"
