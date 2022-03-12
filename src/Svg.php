@@ -7,7 +7,6 @@
 namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
-use Imagick;
 use ImagickDraw;
 
 class Svg
@@ -91,7 +90,7 @@ class Svg
     protected function parseRoot(): void
     {
         $root = preg_replace('/^.*(<svg[^>]*>).*$/sm', '$1', $this->contents);
-        $viewBoxValue = preg_replace('/.*viewBox="([^"]*)".*/', '$1', $root);
+        $viewBoxValue = preg_replace('/.*viewBox="([^"]*)".*/sm', '$1', $root);
         $boundingBox = explode(' ', $viewBoxValue);
         $this->x1 = $boundingBox[0];
         $this->y1 = $boundingBox[1];
@@ -107,39 +106,22 @@ class Svg
         return $this->shapes;
     }
 
-    public function draw(): Imagick
+    public function width(): float
     {
-        $draw = new ImagickDraw();
+        return $this->width;
+    }
 
-        $width = 1000;
-        $height = $width * ($this->height / $this->width);
+    public function height(): float
+    {
+        return $this->height;
+    }
 
-        $draw->scale($width / $this->width, $height / $this->height);
-        $draw->setFillColor('#000');
-        $draw->setStrokeColor('#00000000');
-        $draw->setStrokeWidth(1);
-        $draw->setStrokeAntialias(true);
-        $draw->setTextAntialias(true);
-
+    public function draw($draw): ImagickDraw
+    {
         foreach ($this->shapes() as $path) {
             $draw = $path->draw($draw);
         }
 
-        $imagick = new Imagick();
-        $imagick->newImage($width, $height, '#00000000', 'png');
-
-        $overlay = new Imagick();
-        $overlay->newImage($width, $height, '#00000000', 'png');
-        $overlay->drawImage($draw);
-
-        $imagick->compositeImage(
-            $overlay,
-            Imagick::COMPOSITE_DEFAULT,
-            0,
-            0,
-        );
-        $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);
-
-        return $imagick;
+        return $draw;
     }
 }

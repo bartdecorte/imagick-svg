@@ -184,4 +184,6 @@ GitHub.sublime-settings
 vendor
 
 ### Assets ###
+index.php
 *.svg
+!esign-logo.svg
