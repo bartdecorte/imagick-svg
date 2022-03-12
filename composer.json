@@ -1,0 +1,22 @@
+{
+    "name": "bartdecorte/imagick-svg",
+    "description": "Draw SVGs using Imagick",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "ext-curl": "*",
+        "ext-imagick": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "BartDecorte\\ImagickSvg\\": "src/"
+        },
+        "files": []
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
