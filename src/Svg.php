@@ -61,7 +61,7 @@ class Svg
     protected function parseShapes(): void
     {
         $matches = [];
-        preg_match_all('/<(path|rect|circle|ellipse)[^\/]+\/>/', $this->contents, $matches);
+        preg_match_all('/<(path|rect|circle|ellipse|polygon)[^\/]+\/>/', $this->contents, $matches);
 
         foreach ($matches[0] ?? [] as $match) {
             $type = preg_replace('/<([^\s]+).*/', '$1', $match);
@@ -77,6 +77,9 @@ class Svg
                     break;
                 case 'ellipse':
                     $shape = new Ellipse($match);
+                    break;
+                case 'polygon':
+                    $shape = new Polygon($match);
                     break;
                 default:
                     break;
