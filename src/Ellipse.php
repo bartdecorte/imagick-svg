@@ -8,7 +8,7 @@ namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
 
-class Circle extends Shape
+class Ellipse extends Shape
 {
     protected function cxAttributeValue(): ?string
     {
@@ -20,9 +20,14 @@ class Circle extends Shape
         return $this->attributeValue('cy');
     }
 
-    protected function rAttributeValue(): ?string
+    protected function rxAttributeValue(): ?string
     {
-        return $this->attributeValue('r');
+        return $this->attributeValue('rx');
+    }
+
+    protected function ryAttributeValue(): ?string
+    {
+        return $this->attributeValue('ry');
     }
 
     public function draw(ImagickDraw $draw): ImagickDraw
@@ -31,8 +36,9 @@ class Circle extends Shape
 
         $x = $this->cxAttributeValue();
         $y = $this->cyAttributeValue();
-        $r = $this->rAttributeValue();
-        $draw->ellipse($x, $y, $r, $r, 0, 360);
+        $rx = $this->rxAttributeValue();
+        $ry = $this->ryAttributeValue();
+        $draw->ellipse($x, $y, $rx, $ry, 0, 360);
 
         return $draw;
     }

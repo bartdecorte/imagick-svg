@@ -61,7 +61,7 @@ class Svg
     protected function parseShapes(): void
     {
         $matches = [];
-        preg_match_all('/<(path|rect|circle)[^\/]+\/>/', $this->contents, $matches);
+        preg_match_all('/<(path|rect|circle|ellipse)[^\/]+\/>/', $this->contents, $matches);
 
         foreach ($matches[0] ?? [] as $match) {
             $type = preg_replace('/<([^\s]+).*/', '$1', $match);
@@ -74,6 +74,9 @@ class Svg
                     break;
                 case 'circle':
                     $shape = new Circle($match);
+                    break;
+                case 'ellipse':
+                    $shape = new Ellipse($match);
                     break;
                 default:
                     break;
@@ -113,6 +116,7 @@ class Svg
         $draw->setStrokeColor('#00000000');
         $draw->setStrokeWidth(1);
         $draw->setStrokeAntialias(true);
+        $draw->setTextAntialias(true);
 
         foreach ($this->shapes() as $path) {
             $draw = $path->draw($draw);
@@ -122,8 +126,7 @@ class Svg
         $imagick->newImage($width, $height, '#00000000', 'png');
 
         $overlay = new Imagick();
-        $overlay->newImage($width, $height, '#00000000');
-        $overlay->setImageFormat('png');
+        $overlay->newImage($width, $height, '#00000000', 'png');
         $overlay->drawImage($draw);
 
         $imagick->compositeImage(
@@ -132,6 +135,7 @@ class Svg
             0,
             0,
         );
+        $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);
 
         return $imagick;
     }
