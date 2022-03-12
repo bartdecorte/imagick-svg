@@ -13,7 +13,7 @@ use ImagickDraw;
 class Svg
 {
     protected ?string $contents = null;
-    protected array $paths = [];
+    protected array $shapes = [];
 
     protected float $x1;
     protected float $y1;
@@ -54,23 +54,34 @@ class Svg
 
     protected function parse(): void
     {
-        $this->parsePaths();
         $this->parseRoot();
+        $this->parseShapes();
     }
 
-    protected function parsePaths(): void
+    protected function parseShapes(): void
     {
         $matches = [];
-        preg_match_all('/<path[^\/]+\/>/', $this->contents, $matches);
+        preg_match_all('/<(path|rect)[^\/]+\/>/', $this->contents, $matches);
 
         foreach ($matches[0] ?? [] as $match) {
-            $this->paths[] = new Path($match);
+            $type = preg_replace('/<([^\s]+).*/', '$1', $match);
+            switch ($type) {
+                case 'path':
+                    $shape = new Path($match);
+                    break;
+                case 'rect':
+                    $shape = new Rectangle($match);
+                    break;
+                default:
+                    break;
+            }
+            $this->shapes[] = $shape;
         }
     }
 
     protected function parseRoot(): void
     {
-        $root = preg_replace('/.*(<svg[^>]*>).*/', '$1', $this->contents);
+        $root = preg_replace('/^.*(<svg[^>]*>).*$/sm', '$1', $this->contents);
         $viewBoxValue = preg_replace('/.*viewBox="([^"]*)".*/', '$1', $root);
         $boundingBox = explode(' ', $viewBoxValue);
         $this->x1 = $boundingBox[0];
@@ -82,9 +93,9 @@ class Svg
         $this->height = $this->y2 - $this->y1;
     }
 
-    public function paths(): array
+    public function shapes(): array
     {
-        return $this->paths;
+        return $this->shapes;
     }
 
     public function draw(): Imagick
@@ -100,7 +111,7 @@ class Svg
         $draw->setStrokeWidth(1);
         $draw->setStrokeAntialias(true);
 
-        foreach ($this->paths() as $path) {
+        foreach ($this->shapes() as $path) {
             $draw = $path->draw($draw);
         }
 

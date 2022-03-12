@@ -8,24 +8,11 @@ namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
 
-class Path
+class Path extends Shape
 {
-    public function __construct(protected string $contents)
-    {
-        //
-    }
-
     protected function dAttributeValue(): string
     {
         return preg_replace('/<path[^\/]*d="([^"]+)"[^\/]*\/>/', '$1', $this->contents);
-    }
-
-    protected function fillAttributeValue(): ?string
-    {
-        $matches = [];
-        preg_match('/<path[^\/]*fill="([^"]+)"[^\/]*\/>/', $this->contents, $matches);
-
-        return $matches[1] ?? null;
     }
 
     protected function instructions()
@@ -243,12 +230,9 @@ class Path
         $draw->pathClose();
     }
 
-    public function draw(ImagickDraw $draw)
+    public function draw(ImagickDraw $draw): ImagickDraw
     {
-        if ($fill = $this->fillAttributeValue()) {
-            $draw->setFillColor($fill);
-        }
-
+        parent::draw($draw);
         $draw->pathStart();
 
         foreach ($this->instructions() as $instruction) {
@@ -317,9 +301,7 @@ class Path
                 case 'z':
                     $this->pathClose($draw);
                     break;
-                // This list is incomplete, we only need to be able to handle these instructions right now
-                // See: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
-                // See: https://www.php.net/manual/en/class.imagickdraw.php
+
             }
         }
         $draw->pathFinish();

@@ -12,12 +12,12 @@ require __DIR__ . '/vendor/autoload.php';
 
 use BartDecorte\ImagickSvg\Svg;
 
-$svg = new Svg(__DIR__ . '/welbi-logo.svg');
+$svg = new Svg(__DIR__ . '/shapes.svg');
 
 $last_modified = gmdate("D, d M Y H:i:s T", time());
 $expires = gmdate("D, d M Y H:i:s T", time() + 365 * 24 * 60 * 60); // Cache for a year
 
-// $svg->draw(); exit;
+// $svg->draw(); die(var_dump('done')); exit;
 
 @ob_clean();
 ob_start();
