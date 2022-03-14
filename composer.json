@@ -1,8 +1,9 @@
 {
     "name": "bartdecorte/imagick-svg",
     "description": "Render SVGs using Imagick",
+    "homepage": "https://github.com/bartdecorte/imagick-svg",
     "license": "MIT",
-    "type": "project",
+    "type": "library",
     "require": {
         "php": "^8.0",
         "ext-curl": "*",
@@ -17,12 +18,11 @@
     "autoload": {
         "psr-4": {
             "BartDecorte\\ImagickSvg\\": "src/"
-        },
-        "files": []
+        }
     },
     "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    }
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
