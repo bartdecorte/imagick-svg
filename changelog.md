@@ -5,6 +5,7 @@
 ### Added
 - Transform "translate" support
 - Transform "scale" support
+- Transform "rotate" support
 - Throw exceptions for unsupported elements/tranforms
 
 ### Fixed
