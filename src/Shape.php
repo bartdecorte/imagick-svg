@@ -51,7 +51,7 @@ abstract class Shape
                 function ($argument) {
                     return floatval(trim($argument));
                 },
-                explode(' ', $matches[2][$i])
+                explode(',', str_replace(' ', ',', $matches[2][$i]))
             );
             $instructions[] = compact(
                 'command',
@@ -108,6 +108,25 @@ abstract class Shape
         return $draw;
     }
 
+    protected function transformScale(ImagickDraw $draw, array $arguments, bool $invert = false): ImagickDraw
+    {
+        if (count($arguments) < 2) {
+            $arguments[] = 0;
+        }
+
+        if ($invert) {
+            $arguments = array_map(
+                function ($argument) {
+                    return 1 / $argument;
+                },
+                $arguments,
+            );
+        }
+
+        $draw->scale(...$arguments);
+        return $draw;
+    }
+
     protected function transform(ImagickDraw $draw, bool $invert = false): ImagickDraw
     {
         $instructions = $this->transformInstructions();
@@ -123,6 +142,9 @@ abstract class Shape
                     break;
                 case 'translate':
                     $draw = $this->transformTranslate($draw, $arguments, $invert);
+                    break;
+                case 'scale':
+                    $draw = $this->transformScale($draw, $arguments, $invert);
                     break;
                 default:
                     throw new UnsupportedTransformException();
