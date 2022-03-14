@@ -34,13 +34,13 @@ class Rectangle extends Shape
     {
         parent::draw($draw);
 
-        $x1 = $this->xAttributeValue();
-        $y1 = $this->yAttributeValue();
-        $x2 = $x1 + $this->widthAttributeValue();
-        $y2 = $y1 + $this->heightAttributeValue();
+        return $this->whileTransformed($draw, function (ImagickDraw $draw) {
+            $x1 = $this->xAttributeValue();
+            $y1 = $this->yAttributeValue();
+            $x2 = $x1 + $this->widthAttributeValue();
+            $y2 = $y1 + $this->heightAttributeValue();
 
-        $draw->rectangle($x1, $y1, $x2, $y2);
-
-        return $draw;
+            $draw->rectangle($x1, $y1, $x2, $y2);
+        });
     }
 }

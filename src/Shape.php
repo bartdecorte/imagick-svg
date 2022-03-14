@@ -6,7 +6,10 @@
  */
 namespace BartDecorte\ImagickSvg;
 
+use BartDecorte\ImagickSvg\Exceptions\UnsupportedTransformException;
+use BartDecorte\ImagickSvg\Util\Matrix;
 use ImagickDraw;
+use Closure;
 
 abstract class Shape
 {
@@ -45,8 +48,10 @@ abstract class Shape
         $instructions = [];
         foreach ($matches[1] as $i => $command) {
             $arguments = array_map(
-                'trim',
-                explode(',', $matches[2][$i])
+                function ($argument) {
+                    return floatval(trim($argument));
+                },
+                explode(' ', $matches[2][$i])
             );
             $instructions[] = compact(
                 'command',
@@ -57,22 +62,70 @@ abstract class Shape
         return $instructions;
     }
 
-    protected function transform(ImagickDraw $draw): ImagickDraw
+    protected function transformMatrix(ImagickDraw $draw, array $arguments, bool $invert = false): ImagickDraw
     {
-        foreach ($this->transformInstructions() as ['command' => $command, 'arguments' => $arguments]) {
+        $matrix = new Matrix(
+            $arguments[0],
+            $arguments[1],
+            $arguments[2],
+            $arguments[3],
+            $arguments[4],
+            $arguments[5],
+        );
+
+        if ($invert) {
+            $matrix->invert();
+        }
+
+        $draw->affine([
+            'sx' => $matrix->a,
+            'sy' => $matrix->d,
+            'rx' => $matrix->b,
+            'ry' => $matrix->c,
+            'tx' => $matrix->e,
+            'ty' => $matrix->f,
+        ]);
+
+        return $draw;
+    }
+
+    protected function transformTranslate(ImagickDraw $draw, array $arguments, bool $invert = false): ImagickDraw
+    {
+        if (count($arguments) < 2) {
+            $arguments[] = 0;
+        }
+
+        if ($invert) {
+            $arguments = array_map(
+                function ($argument) {
+                    return $argument * -1;
+                },
+                $arguments,
+            );
+        }
+
+        $draw->translate(...$arguments);
+        return $draw;
+    }
+
+    protected function transform(ImagickDraw $draw, bool $invert = false): ImagickDraw
+    {
+        $instructions = $this->transformInstructions();
+
+        if ($invert) {
+            $instructions = array_reverse($instructions);
+        }
+
+        foreach ($instructions as ['command' => $command, 'arguments' => $arguments]) {
             switch ($command) {
                 case 'matrix':
-                    $draw->affine([
-                        'sx' => $arguments[0],
-                        'sy' => $arguments[3],
-                        'rx' => $arguments[1],
-                        'ry' => $arguments[2],
-                        'tx' => $arguments[4],
-                        'ty' => $arguments[5],
-                    ]);
+                    $draw = $this->transformMatrix($draw, $arguments, $invert);
+                    break;
+                case 'translate':
+                    $draw = $this->transformTranslate($draw, $arguments, $invert);
                     break;
                 default:
-                    break;
+                    throw new UnsupportedTransformException();
             }
         }
 
@@ -88,9 +141,19 @@ abstract class Shape
         $draw->setFillColor($fill);
     }
 
-    public function draw(ImagickDraw $draw)
+    protected function whileTransformed(ImagickDraw $draw, Closure $operations): ImagickDraw
     {
         $this->setFill($draw);
         $this->transform($draw);
+        $operations($draw);
+        $this->transform($draw, true);
+
+        return $draw;
+    }
+
+    public function draw(ImagickDraw $draw): ImagickDraw
+    {
+        $this->setFill($draw);
+        return $draw;
     }
 }

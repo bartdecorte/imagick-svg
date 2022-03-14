@@ -233,78 +233,80 @@ class Path extends Shape
     public function draw(ImagickDraw $draw): ImagickDraw
     {
         parent::draw($draw);
-        $draw->pathStart();
 
-        foreach ($this->instructions() as $instruction) {
+        return $this->whileTransformed($draw, function (ImagickDraw $draw) {
+            $draw->pathStart();
 
-            list(
-                'command' => $command,
-                'arguments' => $arguments,
-                ) = $instruction;
+            foreach ($this->instructions() as $instruction) {
 
-            switch ($command) {
-                case 'M';
-                    $this->pathMoveToAbsolute($draw, ...$arguments);
-                    break;
-                case 'm';
-                    $this->pathMoveToRelative($draw, ...$arguments);
-                    break;
-                case 'L':
-                    $this->pathLineToAbsolute($draw, ...$arguments);
-                    break;
-                case 'l':
-                    $this->pathLineToRelative($draw, ...$arguments);
-                    break;
-                case 'H':
-                    $this->pathLineToHorizontalAbsolute($draw, ...$arguments);
-                    break;
-                case 'h':
-                    $this->pathLineToHorizontalRelative($draw, ...$arguments);
-                    break;
-                case 'V':
-                    $this->pathLineToVerticalAbsolute($draw, ...$arguments);
-                    break;
-                case 'v':
-                    $this->pathLineToVerticalRelative($draw, ...$arguments);
-                    break;
-                case 'A':
-                    $this->pathEllipticArcAbsolute($draw, ...$arguments);
-                    break;
-                case 'a':
-                    $this->pathEllipticArcRelative($draw, ...$arguments);
-                    break;
-                case 'C':
-                    $this->pathCurveToAbsolute($draw, ...$arguments);
-                    break;
-                case 'c':
-                    $this->pathCurveToRelative($draw, ...$arguments);
-                    break;
-                case 'S':
-                    $this->pathCurveToSmoothAbsolute($draw, ...$arguments);
-                    break;
-                case 's':
-                    $this->pathCurveToSmoothRelative($draw, ...$arguments);
-                    break;
-                case 'Q':
-                    $this->pathCurveToQuadraticBezierAbsolute($draw, ...$arguments);
-                    break;
-                case 'q':
-                    $this->pathCurveToQuadraticBezierRelative($draw, ...$arguments);
-                    break;
-                case 'T':
-                    $this->pathCurveToQuadraticBezierSmoothAbsolute($draw, ...$arguments);
-                    break;
-                case 't':
-                    $this->pathCurveToQuadraticBezierSmoothRelative($draw, ...$arguments);
-                    break;
-                case 'Z':
-                case 'z':
-                    $this->pathClose($draw);
-                    break;
+                list(
+                    'command' => $command,
+                    'arguments' => $arguments,
+                    ) = $instruction;
 
+                switch ($command) {
+                    case 'M';
+                        $this->pathMoveToAbsolute($draw, ...$arguments);
+                        break;
+                    case 'm';
+                        $this->pathMoveToRelative($draw, ...$arguments);
+                        break;
+                    case 'L':
+                        $this->pathLineToAbsolute($draw, ...$arguments);
+                        break;
+                    case 'l':
+                        $this->pathLineToRelative($draw, ...$arguments);
+                        break;
+                    case 'H':
+                        $this->pathLineToHorizontalAbsolute($draw, ...$arguments);
+                        break;
+                    case 'h':
+                        $this->pathLineToHorizontalRelative($draw, ...$arguments);
+                        break;
+                    case 'V':
+                        $this->pathLineToVerticalAbsolute($draw, ...$arguments);
+                        break;
+                    case 'v':
+                        $this->pathLineToVerticalRelative($draw, ...$arguments);
+                        break;
+                    case 'A':
+                        $this->pathEllipticArcAbsolute($draw, ...$arguments);
+                        break;
+                    case 'a':
+                        $this->pathEllipticArcRelative($draw, ...$arguments);
+                        break;
+                    case 'C':
+                        $this->pathCurveToAbsolute($draw, ...$arguments);
+                        break;
+                    case 'c':
+                        $this->pathCurveToRelative($draw, ...$arguments);
+                        break;
+                    case 'S':
+                        $this->pathCurveToSmoothAbsolute($draw, ...$arguments);
+                        break;
+                    case 's':
+                        $this->pathCurveToSmoothRelative($draw, ...$arguments);
+                        break;
+                    case 'Q':
+                        $this->pathCurveToQuadraticBezierAbsolute($draw, ...$arguments);
+                        break;
+                    case 'q':
+                        $this->pathCurveToQuadraticBezierRelative($draw, ...$arguments);
+                        break;
+                    case 'T':
+                        $this->pathCurveToQuadraticBezierSmoothAbsolute($draw, ...$arguments);
+                        break;
+                    case 't':
+                        $this->pathCurveToQuadraticBezierSmoothRelative($draw, ...$arguments);
+                        break;
+                    case 'Z':
+                    case 'z':
+                        $this->pathClose($draw);
+                        break;
+
+                }
             }
-        }
-        $draw->pathFinish();
-        return $draw;
+            $draw->pathFinish();
+        });
     }
 }

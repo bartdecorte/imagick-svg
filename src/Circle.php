@@ -29,11 +29,11 @@ class Circle extends Shape
     {
         parent::draw($draw);
 
-        $x = $this->cxAttributeValue();
-        $y = $this->cyAttributeValue();
-        $r = $this->rAttributeValue();
-        $draw->ellipse($x, $y, $r, $r, 0, 360);
-
-        return $draw;
+        return $this->whileTransformed($draw, function (ImagickDraw $draw) {
+            $x = $this->cxAttributeValue();
+            $y = $this->cyAttributeValue();
+            $r = $this->rAttributeValue();
+            $draw->ellipse($x, $y, $r, $r, 0, 360);
+        });
     }
 }

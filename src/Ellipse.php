@@ -34,12 +34,12 @@ class Ellipse extends Shape
     {
         parent::draw($draw);
 
-        $x = $this->cxAttributeValue();
-        $y = $this->cyAttributeValue();
-        $rx = $this->rxAttributeValue();
-        $ry = $this->ryAttributeValue();
-        $draw->ellipse($x, $y, $rx, $ry, 0, 360);
-
-        return $draw;
+        return $this->whileTransformed($draw, function (ImagickDraw $draw) {
+            $x = $this->cxAttributeValue();
+            $y = $this->cyAttributeValue();
+            $rx = $this->rxAttributeValue();
+            $ry = $this->ryAttributeValue();
+            $draw->ellipse($x, $y, $rx, $ry, 0, 360);
+        });
     }
 }

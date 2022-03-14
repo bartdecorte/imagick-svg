@@ -7,6 +7,7 @@
 namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
+use BartDecorte\ImagickSvg\Exceptions\UnsupportedElementException;
 use ImagickDraw;
 
 class Svg
@@ -81,6 +82,7 @@ class Svg
                     $shape = new Polygon($match);
                     break;
                 default:
+                    throw new UnsupportedElementException();
                     break;
             }
             $this->shapes[] = $shape;
@@ -118,8 +120,8 @@ class Svg
 
     public function draw($draw): ImagickDraw
     {
-        foreach ($this->shapes() as $path) {
-            $draw = $path->draw($draw);
+        foreach ($this->shapes() as $shape) {
+            $draw = $shape->draw($draw);
         }
 
         return $draw;

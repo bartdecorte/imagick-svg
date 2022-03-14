@@ -37,9 +37,8 @@ class Polygon extends Shape
     public function draw(ImagickDraw $draw): ImagickDraw
     {
         parent::draw($draw);
-
-        $draw->polygon($this->coordinates());
-
-        return $draw;
+        return $this->whileTransformed($draw, function (ImagickDraw $draw) {
+            $draw->polygon($this->coordinates());
+        });
     }
 }
