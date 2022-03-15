@@ -6,8 +6,8 @@ This package parses SVG files and executes those operations on an ImagickDraw in
 
 ## Installation
 
-```
-$ composer require bartdecorte/imagick-svg
+```bash
+composer require bartdecorte/imagick-svg
 ```
 
 ## Supported SVG features
@@ -67,3 +67,7 @@ print $imagick->getImageBlob();
 header('Content-Length: '. ob_get_length());
 ob_end_flush();
 ```
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
