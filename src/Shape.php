@@ -137,6 +137,26 @@ abstract class Shape
         return $draw;
     }
 
+    protected function transformSkewX(ImagickDraw $draw, float $rotation, bool $invert = false): ImagickDraw
+    {
+        if ($invert) {
+            $rotation *= -1;
+        }
+
+        $draw->skewX($rotation);
+        return $draw;
+    }
+
+    protected function transformSkewY(ImagickDraw $draw, float $rotation, bool $invert = false): ImagickDraw
+    {
+        if ($invert) {
+            $rotation *= -1;
+        }
+
+        $draw->skewY($rotation);
+        return $draw;
+    }
+
     protected function transform(ImagickDraw $draw, bool $invert = false): ImagickDraw
     {
         $instructions = $this->transformInstructions();
@@ -158,6 +178,12 @@ abstract class Shape
                     break;
                 case 'rotate':
                     $draw = $this->transformRotate($draw, $arguments[0], $invert);
+                    break;
+                case 'skewX':
+                    $draw = $this->transformSkewX($draw, $arguments[0], $invert);
+                    break;
+                case 'skewY':
+                    $draw = $this->transformSkewY($draw, $arguments[0], $invert);
                     break;
                 default:
                     throw new UnsupportedTransformException();

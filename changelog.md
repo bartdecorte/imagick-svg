@@ -6,6 +6,7 @@
 - Transform "translate" support
 - Transform "scale" support
 - Transform "rotate" support
+- Transform "skewX" & "skewY" support
 - Throw exceptions for unsupported elements/tranforms
 
 ### Fixed
