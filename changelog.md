@@ -1,6 +1,6 @@
 # Release notes for 1.x
 
-## 1.1.0
+## [1.1.0](https://github.com/bartdecorte/imagick-svg/compare/1.0.1...1.1.0) - 2022-03-15
 
 ### Added
 - Transform "translate" support

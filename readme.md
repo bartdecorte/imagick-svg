@@ -27,7 +27,7 @@ a pull request.
 - path
 
 ### Attributes
-- transform ("matrix" only)
+- transform
 - fill
 
 ### Internal CSS & inline style
