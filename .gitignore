@@ -184,6 +184,9 @@ GitHub.sublime-settings
 vendor
 composer.lock
 
+### PHPCS ###
+.php-cs-fixer.cache
+
 ### Assets ###
 index.php
 *.svg
