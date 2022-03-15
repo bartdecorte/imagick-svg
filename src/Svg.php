@@ -7,15 +7,10 @@
 namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
-use BartDecorte\ImagickSvg\Exceptions\UnsupportedElementException;
-use ImagickDraw;
 use XMLReader;
 
-class Svg
+class Svg extends Group
 {
-    protected ?XMLReader $reader = null;
-    protected array $shapes = [];
-
     protected float $x1;
     protected float $y1;
     protected float $x2;
@@ -23,59 +18,30 @@ class Svg
     protected float $width;
     protected float $height;
 
-    public function __construct(protected string $resource)
+    public function __construct(
+        protected string $resource
+    )
     {
         $this->load();
-        $this->parse();
+        parent::__construct($this->reader);
     }
 
     protected function load(): void
     {
-        if ($this->reader) {
-            return;
-        }
-
         $this->reader = new XMLReader();
         if ($this->reader->open($this->resource) === false) {
             throw new AssetNotFoundException();
         }
     }
 
-    protected function parse(): void
+    protected function parseElement(): ?Shape
     {
-        while ($this->reader->read()) {
-            if ($this->reader->nodeType !== XMLReader::ELEMENT) {
-                continue;
-            }
-
-            $shape = null;
-            switch ($this->reader->name) {
-                case 'svg':
-                    $this->parseRoot();
-                    break;
-                case 'path':
-                    $shape = new Path($this->reader);
-                    break;
-                case 'rect':
-                    $shape = new Rectangle($this->reader);
-                    break;
-                case 'circle':
-                    $shape = new Circle($this->reader);
-                    break;
-                case 'ellipse':
-                    $shape = new Ellipse($this->reader);
-                    break;
-                case 'polygon':
-                    $shape = new Polygon($this->reader);
-                    break;
-                default:
-                    throw new UnsupportedElementException($this->reader->name);
-            }
-
-            if ($shape) {
-                $this->shapes[] = $shape;
-            }
+        if ($this->reader->name === 'svg') {
+            $this->parseRoot();
+            return null;
         }
+
+        return parent::parseElement();
     }
 
     protected function parseRoot(): void
@@ -90,11 +56,6 @@ class Svg
         $this->height = $this->y2 - $this->y1;
     }
 
-    public function shapes(): array
-    {
-        return $this->shapes;
-    }
-
     public function width(): float
     {
         return $this->width;
@@ -103,14 +64,5 @@ class Svg
     public function height(): float
     {
         return $this->height;
-    }
-
-    public function draw($draw): ImagickDraw
-    {
-        foreach ($this->shapes() as $shape) {
-            $draw = $shape->draw($draw);
-        }
-
-        return $draw;
     }
 }

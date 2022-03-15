@@ -24,7 +24,7 @@ class Matrix
         return [
             [$this->a, $this->c, $this->e],
             [$this->b, $this->d, $this->f],
-            [0, 0, 1],
+            [0.0, 0.0, 1.0],
         ];
     }
 
@@ -43,7 +43,7 @@ class Matrix
 
         for ($j = 0; $j < $size - 1; ++$j) {
             for ($i = $j + 1; $i < $size; ++ $i) {
-                if ($matrix[$i][$j] !== 0) {
+                if ($matrix[$i][$j] !== 0.0) {
                     $scalar = $matrix[$j][$j] / $matrix[$i][$j];
                     for ($k = $j; $k < $size * 2; ++ $k) {
                         $matrix[$i][$k] *= $scalar;
@@ -55,7 +55,7 @@ class Matrix
 
         for ($j = $size - 1; $j > 0; --$j) {
             for ($i = $j - 1; $i >= 0; --$i) {
-                if ($matrix[$i][$j] !== 0) {
+                if ($matrix[$i][$j] !== 0.0) {
                     $scalar = $matrix[$j][$j] / $matrix[$i][$j];
                     for ($k = $i; $k < $size * 2; ++$k) {
                         $matrix[$i][$k] *= $scalar;
@@ -66,7 +66,7 @@ class Matrix
         }
 
         for ($j = 0; $j < $size; ++$j) {
-            if ($matrix[$j][$j] !== 1) {
+            if ($matrix[$j][$j] !== 1.0) {
                 $scalar = 1 / $matrix[$j][$j];
                 for ($k = $j; $k < $size * 2; ++$k) {
                     $matrix[$j][$k] *= $scalar;

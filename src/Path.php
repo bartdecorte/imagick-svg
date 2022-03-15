@@ -21,7 +21,8 @@ class Path extends Shape
 
     protected function instructions(): array
     {
-        $instructions = preg_replace('/([a-zA-Z])/', '|\1', $this->d);
+        $instructions = preg_replace('/\s*([a-zA-Z])\s*/', '|\1', $this->d);
+        $instructions = str_replace(' ', ',', $instructions);
         $instructions = explode('|', $instructions);
         array_shift($instructions);
         return array_map(function ($instruction) {
@@ -29,6 +30,7 @@ class Path extends Shape
             $arguments = [];
             $i = 0;
             while (strlen($argument_string)) {
+                //dump($argument_string);
                 $pattern = '/^,?(-?[0-9]*\.?[0-9]*)(.*)/';
                 $arguments[] = floatval(preg_replace($pattern, '\1', $argument_string));
                 $argument_string = preg_replace($pattern, '\2', $argument_string);

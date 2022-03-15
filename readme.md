@@ -16,7 +16,6 @@ most SVGs should be rendered correctly.
 
 Some pointers:
 - Convert internal CSS & inline styles to presentation attributes
-- Ungroup all elements
 - Expand all elements (including strokes)
 
 I'm looking to extend support in the near feature, feel free to open issues to request features, or better still, make
@@ -28,6 +27,7 @@ a pull request.
 - ellipse
 - polygon
 - path
+- g
 
 ### Attributes
 - transform

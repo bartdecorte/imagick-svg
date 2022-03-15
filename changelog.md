@@ -12,11 +12,14 @@
 ### Fixed
 - Revert transforms after executing draw instructions for the current element
 
-## [1.2.0](https://github.com/bartdecorte/imagick-svg/compare/1.1.0...1.2.0) - TBD
+## [1.2.0](https://github.com/bartdecorte/imagick-svg/compare/1.1.0...1.2.0) - 2022-03-15
 
 ### Added
+- Support for `<g>` group elements
 
 ### Fixed
+- Division by zero while calculating an inverse transformation matrix
 
 ### Changed
-- preg calls replaced by XMLReader
+- preg calls are replaced by an XMLReader instance
+- An exception is no longer thrown for unsupported elements, they are simply ignored

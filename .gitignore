@@ -182,6 +182,7 @@ GitHub.sublime-settings
 
 ### Composer ###
 vendor
+composer.lock
 
 ### Assets ###
 index.php
