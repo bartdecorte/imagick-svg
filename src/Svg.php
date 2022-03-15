@@ -9,10 +9,11 @@ namespace BartDecorte\ImagickSvg;
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
 use BartDecorte\ImagickSvg\Exceptions\UnsupportedElementException;
 use ImagickDraw;
+use XMLReader;
 
 class Svg
 {
-    protected ?string $contents = null;
+    protected ?XMLReader $reader = null;
     protected array $shapes = [];
 
     protected float $x1;
@@ -30,69 +31,56 @@ class Svg
 
     protected function load(): void
     {
-        if ($this->contents) {
+        if ($this->reader) {
             return;
         }
 
-        // Might be a local path...
-        if (@file_exists($this->resource)) {
-            $this->contents = file_get_contents($this->resource);
-            return;
-        }
-
-        // ... or a remote URL
-        $handle = curl_init($this->resource);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
-        $this->contents = curl_exec($handle); // Needed to get the http code below
-        $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-
-        if ($httpCode != 200) {
+        $this->reader = new XMLReader();
+        if ($this->reader->open($this->resource) === false) {
             throw new AssetNotFoundException();
         }
     }
 
     protected function parse(): void
     {
-        $this->parseRoot();
-        $this->parseShapes();
-    }
+        while ($this->reader->read()) {
+            if ($this->reader->nodeType !== XMLReader::ELEMENT) {
+                continue;
+            }
 
-    protected function parseShapes(): void
-    {
-        $matches = [];
-        preg_match_all('/<(path|rect|circle|ellipse|polygon)[^\/]+\/>/sm', $this->contents, $matches);
-
-        foreach ($matches[0] ?? [] as $match) {
-            $type = preg_replace('/<([^\s]+).*/', '$1', $match);
-            switch ($type) {
+            $shape = null;
+            switch ($this->reader->name) {
+                case 'svg':
+                    $this->parseRoot();
+                    break;
                 case 'path':
-                    $shape = new Path($match);
+                    $shape = new Path($this->reader);
                     break;
                 case 'rect':
-                    $shape = new Rectangle($match);
+                    $shape = new Rectangle($this->reader);
                     break;
                 case 'circle':
-                    $shape = new Circle($match);
+                    $shape = new Circle($this->reader);
                     break;
                 case 'ellipse':
-                    $shape = new Ellipse($match);
+                    $shape = new Ellipse($this->reader);
                     break;
                 case 'polygon':
-                    $shape = new Polygon($match);
+                    $shape = new Polygon($this->reader);
                     break;
                 default:
-                    throw new UnsupportedElementException();
+                    throw new UnsupportedElementException($this->reader->name);
             }
-            $this->shapes[] = $shape;
+
+            if ($shape) {
+                $this->shapes[] = $shape;
+            }
         }
     }
 
     protected function parseRoot(): void
     {
-        $root = preg_replace('/^.*(<svg[^>]*>).*$/sm', '$1', $this->contents);
-        $viewBoxValue = preg_replace('/.*viewBox="([^"]*)".*/sm', '$1', $root);
-        $boundingBox = explode(' ', $viewBoxValue);
+        $boundingBox = explode(' ', $this->reader->getAttribute('viewBox'));
         $this->x1 = $boundingBox[0];
         $this->y1 = $boundingBox[1];
         $this->x2 = $boundingBox[2];

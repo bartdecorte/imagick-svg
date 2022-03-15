@@ -7,27 +7,22 @@
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
+use XMLReader;
 
 class Rectangle extends Shape
 {
-    protected function xAttributeValue(): ?string
-    {
-        return $this->attributeValue('x');
-    }
+    protected float $x;
+    protected float $y;
+    protected float $width;
+    protected float $height;
 
-    protected function yAttributeValue(): ?string
+    public function __construct(XMLReader $reader)
     {
-        return $this->attributeValue('y');
-    }
-
-    protected function widthAttributeValue(): ?string
-    {
-        return $this->attributeValue('width');
-    }
-
-    protected function heightAttributeValue(): ?string
-    {
-        return $this->attributeValue('height');
+        parent::__construct($reader);
+        $this->x = $reader->getAttribute('x');
+        $this->y = $reader->getAttribute('y');
+        $this->width = $reader->getAttribute('width');
+        $this->height = $reader->getAttribute('height');
     }
 
     public function draw(ImagickDraw $draw): ImagickDraw
@@ -35,10 +30,10 @@ class Rectangle extends Shape
         parent::draw($draw);
 
         return $this->whileTransformed($draw, function (ImagickDraw $draw) {
-            $x1 = $this->xAttributeValue();
-            $y1 = $this->yAttributeValue();
-            $x2 = $x1 + $this->widthAttributeValue();
-            $y2 = $y1 + $this->heightAttributeValue();
+            $x1 = $this->x;
+            $y1 = $this->y;
+            $x2 = $x1 + $this->width;
+            $y2 = $y1 + $this->height;
 
             $draw->rectangle($x1, $y1, $x2, $y2);
         });

@@ -7,21 +7,21 @@
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
+use XMLReader;
 
 class Polygon extends Shape
 {
-    protected function pointsAttributeValue(): ?string
+    protected string $points;
+
+    public function __construct(XMLReader $reader)
     {
-        return $this->attributeValue('points');
+        parent::__construct($reader);
+        $this->points = $reader->getAttribute('points');
     }
 
     protected function coordinates(): array
     {
-        if (! $this->pointsAttributeValue()) {
-            return [];
-        }
-
-        $points = explode(' ', $this->pointsAttributeValue());
+        $points = explode(' ', $this->points);
 
         $coordinates = [];
         for ($i = 0; $i < count($points); $i += 2) {

@@ -7,27 +7,22 @@
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
+use XMLReader;
 
 class Ellipse extends Shape
 {
-    protected function cxAttributeValue(): ?string
-    {
-        return $this->attributeValue('cx');
-    }
+    protected float $cx;
+    protected float $cy;
+    protected float $rx;
+    protected float $ry;
 
-    protected function cyAttributeValue(): ?string
+    public function __construct(XMLReader $reader)
     {
-        return $this->attributeValue('cy');
-    }
-
-    protected function rxAttributeValue(): ?string
-    {
-        return $this->attributeValue('rx');
-    }
-
-    protected function ryAttributeValue(): ?string
-    {
-        return $this->attributeValue('ry');
+        parent::__construct($reader);
+        $this->cx = $reader->getAttribute('cx');
+        $this->cy = $reader->getAttribute('cy');
+        $this->rx = $reader->getAttribute('rx');
+        $this->ry = $reader->getAttribute('ry');
     }
 
     public function draw(ImagickDraw $draw): ImagickDraw
@@ -35,11 +30,7 @@ class Ellipse extends Shape
         parent::draw($draw);
 
         return $this->whileTransformed($draw, function (ImagickDraw $draw) {
-            $x = $this->cxAttributeValue();
-            $y = $this->cyAttributeValue();
-            $rx = $this->rxAttributeValue();
-            $ry = $this->ryAttributeValue();
-            $draw->ellipse($x, $y, $rx, $ry, 0, 360);
+            $draw->ellipse($this->cx, $this->cy, $this->rx, $this->ry, 0, 360);
         });
     }
 }

@@ -7,22 +7,20 @@
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
+use XMLReader;
 
 class Circle extends Shape
 {
-    protected function cxAttributeValue(): ?string
-    {
-        return $this->attributeValue('cx');
-    }
+    protected float $cx;
+    protected float $cy;
+    protected float $r;
 
-    protected function cyAttributeValue(): ?string
+    public function __construct(XMLReader $reader)
     {
-        return $this->attributeValue('cy');
-    }
-
-    protected function rAttributeValue(): ?string
-    {
-        return $this->attributeValue('r');
+        parent::__construct($reader);
+        $this->cx = $reader->getAttribute('cx');
+        $this->cy = $reader->getAttribute('cy');
+        $this->r = $reader->getAttribute('r');
     }
 
     public function draw(ImagickDraw $draw): ImagickDraw
@@ -30,10 +28,7 @@ class Circle extends Shape
         parent::draw($draw);
 
         return $this->whileTransformed($draw, function (ImagickDraw $draw) {
-            $x = $this->cxAttributeValue();
-            $y = $this->cyAttributeValue();
-            $r = $this->rAttributeValue();
-            $draw->ellipse($x, $y, $r, $r, 0, 360);
+            $draw->ellipse($this->cx, $this->cy, $this->r, $this->r, 0, 360);
         });
     }
 }

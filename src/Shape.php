@@ -10,40 +10,27 @@ use BartDecorte\ImagickSvg\Exceptions\UnsupportedTransformException;
 use BartDecorte\ImagickSvg\Util\Matrix;
 use ImagickDraw;
 use Closure;
+use XMLReader;
 
 abstract class Shape
 {
-    public function __construct(protected string $contents)
-    {
-        //
-    }
+    protected ?string $fill;
+    protected ?string $transform;
 
-    protected function attributeValue(string $name): ?string
+    public function __construct(protected XMLReader $reader)
     {
-        $matches = [];
-        preg_match("/<[^\/]*$name=\"([^\"]+)\"[^\/]*\/>/sm", $this->contents, $matches);
-
-        return $matches[1] ?? null;
-    }
-
-    protected function fillAttributeValue(): ?string
-    {
-        return $this->attributeValue('fill');
-    }
-
-    protected function transformAttributeValue(): ?string
-    {
-        return $this->attributeValue('transform');
+        $this->fill = $this->reader->getAttribute('fill');
+        $this->transform = $this->reader->getAttribute('transform');
     }
 
     protected function transformInstructions(): array
     {
-        if (! $this->transformAttributeValue()) {
+        if (! $this->transform) {
             return [];
         }
 
         $matches = [];
-        preg_match_all('/([a-zA-Z]+)\(([^)]+)\)/', $this->transformAttributeValue(), $matches);
+        preg_match_all('/([a-zA-Z]+)\(([^)]+)\)/', $this->transform, $matches);
 
         $instructions = [];
         foreach ($matches[1] as $i => $command) {
@@ -195,11 +182,11 @@ abstract class Shape
 
     protected function setFill(ImagickDraw $draw)
     {
-        if (! $fill = $this->fillAttributeValue()) {
+        if (! $this->fill) {
             return;
         }
 
-        $draw->setFillColor($fill);
+        $draw->setFillColor($this->fill);
     }
 
     protected function whileTransformed(ImagickDraw $draw, Closure $operations): ImagickDraw

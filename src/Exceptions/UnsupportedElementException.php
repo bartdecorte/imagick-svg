@@ -10,5 +10,8 @@ use Exception;
 
 class UnsupportedElementException extends Exception
 {
-    //
+    public function __construct(string $element)
+    {
+        parent::__construct("$element is not a supported element");
+    }
 }

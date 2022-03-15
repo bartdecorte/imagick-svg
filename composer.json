@@ -6,8 +6,8 @@
     "type": "library",
     "require": {
         "php": "^8.0",
-        "ext-curl": "*",
-        "ext-imagick": "^3.6"
+        "ext-imagick": "^3.6",
+        "ext-xmlreader": "*"
     },
     "authors": [
         {

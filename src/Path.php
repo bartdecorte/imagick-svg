@@ -7,17 +7,21 @@
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
+use XMLReader;
 
 class Path extends Shape
 {
-    protected function dAttributeValue(): string
+    protected string $d;
+
+    public function __construct(XMLReader $reader)
     {
-        return preg_replace('/<path[^\/]*d="([^"]+)"[^\/]*\/>/', '$1', $this->contents);
+        parent::__construct($reader);
+        $this->d = $reader->getAttribute('d');
     }
 
-    protected function instructions()
+    protected function instructions(): array
     {
-        $instructions = preg_replace('/([a-zA-Z])/', '|\1', $this->dAttributeValue());
+        $instructions = preg_replace('/([a-zA-Z])/', '|\1', $this->d);
         $instructions = explode('|', $instructions);
         array_shift($instructions);
         return array_map(function ($instruction) {
