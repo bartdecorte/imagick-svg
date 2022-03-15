@@ -4,6 +4,7 @@
  * Date: 12/03/2022
  * Time: 12:59
  */
+
 namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
@@ -20,8 +21,7 @@ class Svg extends Group
 
     public function __construct(
         protected string $resource
-    )
-    {
+    ) {
         $this->load();
         parent::__construct($this->reader);
     }
@@ -38,6 +38,7 @@ class Svg extends Group
     {
         if ($this->reader->name === 'svg') {
             $this->parseRoot();
+
             return null;
         }
 

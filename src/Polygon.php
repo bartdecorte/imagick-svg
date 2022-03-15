@@ -4,6 +4,7 @@
  * Date: 12/03/2022
  * Time: 17:41
  */
+
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
@@ -37,6 +38,7 @@ class Polygon extends Shape
     public function draw(ImagickDraw $draw): ImagickDraw
     {
         parent::draw($draw);
+
         return $this->whileTransformed($draw, function (ImagickDraw $draw) {
             $draw->polygon($this->coordinates());
         });

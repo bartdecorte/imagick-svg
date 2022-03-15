@@ -4,11 +4,11 @@
  * Date: 15/03/2022
  * Time: 19:51
  */
+
 namespace BartDecorte\ImagickSvg;
 
-use BartDecorte\ImagickSvg\Exceptions\UnsupportedElementException;
-use XMLReader;
 use ImagickDraw;
+use XMLReader;
 
 class Group extends Shape
 {
@@ -47,21 +47,27 @@ class Group extends Shape
         switch ($this->reader->name) {
             case 'g':
                 $shape = new Group($this->reader);
+
                 break;
             case 'path':
                 $shape = new Path($this->reader);
+
                 break;
             case 'rect':
                 $shape = new Rectangle($this->reader);
+
                 break;
             case 'circle':
                 $shape = new Circle($this->reader);
+
                 break;
             case 'ellipse':
                 $shape = new Ellipse($this->reader);
+
                 break;
             case 'polygon':
                 $shape = new Polygon($this->reader);
+
                 break;
             default:
                 break;

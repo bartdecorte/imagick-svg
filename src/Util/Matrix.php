@@ -4,6 +4,7 @@
  * Date: 14/03/2022
  * Time: 19:51
  */
+
 namespace BartDecorte\ImagickSvg\Util;
 
 class Matrix
@@ -42,10 +43,10 @@ class Matrix
         }
 
         for ($j = 0; $j < $size - 1; ++$j) {
-            for ($i = $j + 1; $i < $size; ++ $i) {
+            for ($i = $j + 1; $i < $size; ++$i) {
                 if ($matrix[$i][$j] !== 0.0) {
                     $scalar = $matrix[$j][$j] / $matrix[$i][$j];
-                    for ($k = $j; $k < $size * 2; ++ $k) {
+                    for ($k = $j; $k < $size * 2; ++$k) {
                         $matrix[$i][$k] *= $scalar;
                         $matrix[$i][$k] -= $matrix[$j][$k];
                     }
@@ -98,6 +99,7 @@ class Matrix
                 $identity[$i][$j] = $i == $j ? 1 : 0;
             }
         }
+
         return $identity;
     }
 }

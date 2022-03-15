@@ -4,12 +4,13 @@
  * Date: 12/03/2022
  * Time: 16:31
  */
+
 namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Exceptions\UnsupportedTransformException;
 use BartDecorte\ImagickSvg\Util\Matrix;
-use ImagickDraw;
 use Closure;
+use ImagickDraw;
 use XMLReader;
 
 abstract class Shape
@@ -92,6 +93,7 @@ abstract class Shape
         }
 
         $draw->translate(...$arguments);
+
         return $draw;
     }
 
@@ -111,6 +113,7 @@ abstract class Shape
         }
 
         $draw->scale(...$arguments);
+
         return $draw;
     }
 
@@ -121,6 +124,7 @@ abstract class Shape
         }
 
         $draw->rotate($rotation);
+
         return $draw;
     }
 
@@ -131,6 +135,7 @@ abstract class Shape
         }
 
         $draw->skewX($rotation);
+
         return $draw;
     }
 
@@ -141,6 +146,7 @@ abstract class Shape
         }
 
         $draw->skewY($rotation);
+
         return $draw;
     }
 
@@ -156,21 +162,27 @@ abstract class Shape
             switch ($command) {
                 case 'matrix':
                     $draw = $this->transformMatrix($draw, $arguments, $invert);
+
                     break;
                 case 'translate':
                     $draw = $this->transformTranslate($draw, $arguments, $invert);
+
                     break;
                 case 'scale':
                     $draw = $this->transformScale($draw, $arguments, $invert);
+
                     break;
                 case 'rotate':
                     $draw = $this->transformRotate($draw, $arguments[0], $invert);
+
                     break;
                 case 'skewX':
                     $draw = $this->transformSkewX($draw, $arguments[0], $invert);
+
                     break;
                 case 'skewY':
                     $draw = $this->transformSkewY($draw, $arguments[0], $invert);
+
                     break;
                 default:
                     throw new UnsupportedTransformException();
@@ -202,6 +214,7 @@ abstract class Shape
     public function draw(ImagickDraw $draw): ImagickDraw
     {
         $this->setFill($draw);
+
         return $draw;
     }
 }

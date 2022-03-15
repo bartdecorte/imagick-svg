@@ -4,6 +4,7 @@
  * Date: 12/03/2022
  * Time: 17:41
  */
+
 namespace BartDecorte\ImagickSvg;
 
 use ImagickDraw;
