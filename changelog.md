@@ -11,3 +11,12 @@
 
 ### Fixed
 - Revert transforms after executing draw instructions for the current element
+
+## [1.2.0](https://github.com/bartdecorte/imagick-svg/compare/1.1.0...1.2.0) - TBD
+
+### Added
+
+### Fixed
+
+### Changed
+- preg calls replaced by XMLReader
