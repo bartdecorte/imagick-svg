@@ -20,8 +20,14 @@
             "BartDecorte\\ImagickSvg\\": "src/"
         }
     },
+
+    "autoload-dev": {
+        "psr-4": {
+            "BartDecorte\\ImagickSvg\\Tests\\": "tests"
+        }
+    },
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/phpunit --testdox",
         "phpcs": "vendor/bin/php-cs-fixer fix"
     },
     "config": {

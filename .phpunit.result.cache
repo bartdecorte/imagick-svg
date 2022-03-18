@@ -1,1 +1,1 @@
-{"version":1,"defects":[],"times":[]}
+{"version":1,"defects":{"Warning":6,"BartDecorte\\ImagickSvg\\Tests\\ElementTest::it_can_render_circle":3},"times":{"Warning":0.002,"BartDecorte\\ImagickSvg\\Tests\\ElementTest::it_can_render_circles":0.002,"BartDecorte\\ImagickSvg\\Tests\\ElementTest::it_can_render_rectangles":0,"BartDecorte\\ImagickSvg\\Tests\\ElementTest::it_can_render_circle":0.34}}
