@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest]
         php: [8.0, 8.1]
         stability: [prefer-lowest, prefer-stable]
         include:
@@ -21,6 +21,9 @@ jobs:
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
+      - name: Install latest ImageMagick version
+        run: brew install imagemagick
+
       - name: Checkout code
         uses: actions/checkout@v3
 
