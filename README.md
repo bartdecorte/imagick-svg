@@ -1,6 +1,8 @@
 # Imagick SVG
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/bartdecorte/imagick-svg.svg?style=flat-square)](https://packagist.org/packages/bartdecorte/imagick-svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/bartdecorte/imagick-svg.svg?style=flat-square)](https://packagist.org/packages/bartdecorte/imagick-svg)
+[![run-tests](https://github.com/bartdecorte/imagick-svg/actions/workflows/main.yml/badge.svg)](https://github.com/bartdecorte/imagick-svg/actions/workflows/main.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This package parses SVG files and executes those operations on an ImagickDraw instance.
 
