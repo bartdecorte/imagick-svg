@@ -1,5 +1,10 @@
 # Release notes for 1.x
 
+## [1.2.1](https://github.com/bartdecorte/imagick-svg/compare/1.2.0...1.2.1) - TBD
+
+### Fixed
+- x, y, cx, cy attribute defaults for circles, ellipses & rectangles
+
 ## [1.2.0](https://github.com/bartdecorte/imagick-svg/compare/1.1.0...1.2.0) - 2022-03-15
 
 ### Added
