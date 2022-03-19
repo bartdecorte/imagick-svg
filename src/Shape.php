@@ -117,13 +117,20 @@ abstract class Shape
         return $draw;
     }
 
-    protected function transformRotate(ImagickDraw $draw, float $rotation, bool $invert = false): ImagickDraw
-    {
+    protected function transformRotate(
+        ImagickDraw $draw,
+        float $rotation,
+        float $originX = 0,
+        float $originY = 0,
+        bool $invert = false
+    ): ImagickDraw {
         if ($invert) {
             $rotation *= -1;
         }
 
+        $draw->translate($originX, $originY);
         $draw->rotate($rotation);
+        $draw->translate(-1 * $originX, -1 * $originY);
 
         return $draw;
     }
@@ -173,7 +180,14 @@ abstract class Shape
 
                     break;
                 case 'rotate':
-                    $draw = $this->transformRotate($draw, $arguments[0], $invert);
+                    $draw = $this->transformRotate(
+                        $draw,
+                        $arguments[0],
+                        $arguments[1] ?? 0,
+                        $arguments[2] ?? 0,
+                        $invert
+                    )
+                    ;
 
                     break;
                 case 'skewX':

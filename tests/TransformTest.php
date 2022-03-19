@@ -4,6 +4,7 @@
  * Date: 19/03/2022
  * Time: 11:41
  */
+
 namespace BartDecorte\ImagickSvg\Tests;
 
 class TransformTest extends TestCase
@@ -45,14 +46,25 @@ class TransformTest extends TestCase
     }
 
     /** @test */
-    public function it_can_rotate_element_clockwise()
+    public function it_can_rotate_element_clockwise_from_origin()
     {
-        $this->assertSvgEqualsPng('transform-rotate-clockwise');
+        $this->assertSvgEqualsPng('transform-rotate-origin-clockwise');
     }
 
     /** @test */
-    public function it_can_rotate_element_counter_clockwise()
+    public function it_can_rotate_element_counter_clockwise_from_origin()
     {
-        $this->assertSvgEqualsPng('transform-rotate-counter-clockwise');
+        $this->assertSvgEqualsPng('transform-rotate-origin-counter-clockwise');
+    }
+    /** @test */
+    public function it_can_rotate_element_clockwise_from_center()
+    {
+        $this->assertSvgEqualsPng('transform-rotate-center-clockwise');
+    }
+
+    /** @test */
+    public function it_can_rotate_element_counter_clockwise_from_center()
+    {
+        $this->assertSvgEqualsPng('transform-rotate-center-counter-clockwise');
     }
 }
