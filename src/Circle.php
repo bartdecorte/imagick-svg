@@ -19,8 +19,8 @@ class Circle extends Shape
     public function __construct(XMLReader $reader)
     {
         parent::__construct($reader);
-        $this->cx = $reader->getAttribute('cx');
-        $this->cy = $reader->getAttribute('cy');
+        $this->cx = $reader->getAttribute('cx') ?? 0;
+        $this->cy = $reader->getAttribute('cy') ?? 0;
         $this->r = $reader->getAttribute('r');
     }
 

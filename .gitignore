@@ -190,5 +190,4 @@ composer.lock
 ### Assets ###
 index.php
 *.svg
-!esign-logo.svg
 !tests/**/*

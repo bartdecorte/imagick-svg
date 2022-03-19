@@ -7,11 +7,17 @@
 
 namespace BartDecorte\ImagickSvg;
 
+use BartDecorte\ImagickSvg\Concerns\GroupsElements;
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
 use XMLReader;
+use ImagickDraw;
 
-class Svg extends Group
+class Svg
 {
+    use GroupsElements {
+        parseElement as parseElementInGroup;
+    }
+
     protected float $x1;
     protected float $y1;
     protected float $x2;
@@ -23,7 +29,7 @@ class Svg extends Group
         protected string $resource
     ) {
         $this->load();
-        parent::__construct($this->reader);
+        $this->parse();
     }
 
     protected function load(): void
@@ -42,7 +48,7 @@ class Svg extends Group
             return null;
         }
 
-        return parent::parseElement();
+        return $this->parseElementInGroup();
     }
 
     protected function parseRoot(): void
@@ -65,5 +71,14 @@ class Svg extends Group
     public function height(): float
     {
         return $this->height;
+    }
+
+    public function draw(ImagickDraw $draw): ImagickDraw
+    {
+        foreach ($this->shapes() as $shape) {
+            $draw = $shape->draw($draw);
+        }
+
+        return $draw;
     }
 }

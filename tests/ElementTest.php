@@ -13,4 +13,28 @@ class ElementTest extends TestCase
     {
         $this->assertSvgEqualsPng('circle');
     }
+
+    /** @test */
+    public function it_can_render_rectangle()
+    {
+        $this->assertSvgEqualsPng('rectangle');
+    }
+
+    /** @test */
+    public function it_can_render_ellipse()
+    {
+        $this->assertSvgEqualsPng('ellipse');
+    }
+
+    /** @test */
+    public function it_can_render_polygon()
+    {
+        $this->assertSvgEqualsPng('polygon');
+    }
+
+    /** @test */
+    public function it_can_render_path()
+    {
+        $this->assertSvgEqualsPng('path');
+    }
 }

@@ -20,8 +20,8 @@ class Rectangle extends Shape
     public function __construct(XMLReader $reader)
     {
         parent::__construct($reader);
-        $this->x = $reader->getAttribute('x');
-        $this->y = $reader->getAttribute('y');
+        $this->x = $reader->getAttribute('x') ?? 0;
+        $this->y = $reader->getAttribute('y') ?? 0;
         $this->width = $reader->getAttribute('width');
         $this->height = $reader->getAttribute('height');
     }
