@@ -79,4 +79,10 @@ class TransformTest extends TestCase
     {
         $this->assertSvgEqualsPng('transform-skew-vertically');
     }
+
+    /** @test */
+    public function it_can_matrix_transform_element()
+    {
+        $this->assertSvgEqualsPng('transform-matrix-translation');
+    }
 }
