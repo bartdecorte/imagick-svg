@@ -4,6 +4,7 @@
  * Date: 18/03/2022
  * Time: 20:43
  */
+
 namespace BartDecorte\ImagickSvg\Concerns;
 
 use BartDecorte\ImagickSvg\Circle;

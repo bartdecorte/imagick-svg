@@ -9,8 +9,8 @@ namespace BartDecorte\ImagickSvg;
 
 use BartDecorte\ImagickSvg\Concerns\GroupsElements;
 use BartDecorte\ImagickSvg\Exceptions\AssetNotFoundException;
-use XMLReader;
 use ImagickDraw;
+use XMLReader;
 
 class Svg
 {

@@ -187,7 +187,11 @@ composer.lock
 ### PHPCS ###
 .php-cs-fixer.cache
 
+### Tests ###
+.phpunit.result.cache
+
 ### Assets ###
 index.php
 *.svg
 !tests/**/*
+

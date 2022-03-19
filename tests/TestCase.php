@@ -4,18 +4,19 @@
  * Date: 18/03/2022
  * Time: 19:59
  */
+
 namespace BartDecorte\ImagickSvg\Tests;
 
 use BartDecorte\ImagickSvg\Svg;
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use Imagick;
 use ImagickDraw;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
     protected function assertSvgEqualsPng(string $baseFilename)
     {
-        $svg = new Svg( __DIR__ . "/input/$baseFilename.svg");
+        $svg = new Svg(__DIR__ . "/input/$baseFilename.svg");
 
         $width = 800;
         $height = ceil($width * ($svg->height() / $svg->width()));
