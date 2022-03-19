@@ -152,7 +152,8 @@ abstract class Shape
             $rotation *= -1;
         }
 
-        $draw->skewY($rotation);
+        // Express as a matrix transformation, as ImagickDraw::skeyY() does not produce the expected results
+        $this->transformMatrix($draw, [1, tan(deg2rad($rotation)), 0, 1, 0, 0], $invert);
 
         return $draw;
     }

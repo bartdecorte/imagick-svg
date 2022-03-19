@@ -67,4 +67,16 @@ class TransformTest extends TestCase
     {
         $this->assertSvgEqualsPng('transform-rotate-center-counter-clockwise');
     }
+
+    /** @test */
+    public function it_can_skew_element_horizontally()
+    {
+        $this->assertSvgEqualsPng('transform-skew-horizontally');
+    }
+
+    /** @test */
+    public function it_can_skew_element_vertically()
+    {
+        $this->assertSvgEqualsPng('transform-skew-vertically');
+    }
 }
