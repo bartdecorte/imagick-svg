@@ -56,6 +56,7 @@ class TransformTest extends TestCase
     {
         $this->assertSvgEqualsPng('transform-rotate-origin-counter-clockwise');
     }
+
     /** @test */
     public function it_can_rotate_element_clockwise_from_center()
     {
