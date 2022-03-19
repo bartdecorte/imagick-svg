@@ -4,7 +4,7 @@
 
 ### Fixed
 - x, y, cx, cy attribute defaults for circles, ellipses & rectangles
-- the optional 2nd & 3rd element for a rotation transformation, which were previously ignored, are now taken into
+- the optional 2nd & 3rd arguments for a rotation transformation, which were previously ignored, are now taken into
 account
 - skewY transformations are now expressed through a matrix transformation, fixing unexpected Imagick behaviour
 
