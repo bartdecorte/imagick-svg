@@ -27,7 +27,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --testdox",
+        "test": "vendor/bin/phpunit --testdox --coverage-text",
         "phpcs": "vendor/bin/php-cs-fixer fix"
     },
     "config": {
